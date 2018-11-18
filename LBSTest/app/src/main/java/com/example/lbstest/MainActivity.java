@@ -14,6 +14,13 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +31,25 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView positionText;
 
+    private MapView mapView;
+
+    private BaiduMap baiduMap;
+
+    private boolean isFirstLocate = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mLocationClient = new LocationClient(getApplicationContext());
         mLocationClient.registerLocationListener(new MyLocationListener());
+        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
 
         positionText = (TextView)findViewById(R.id.position_text_view);
+
+        mapView = (MapView)findViewById(R.id.bmapView);
+        baiduMap = mapView.getMap();
+        baiduMap.setMyLocationEnabled(true);
 
         List<String> permissionList = new ArrayList<>();
 
@@ -77,10 +95,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume(){
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
     protected void onDestroy()
     {
         super.onDestroy();
         mLocationClient.stop();
+        mapView.onDestroy();
+        baiduMap.setMyLocationEnabled(false);
     }
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
     {
@@ -112,11 +144,30 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void navigateTo(BDLocation location)
+    {
+        if(isFirstLocate)
+        {
+            LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
+            MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
+            baiduMap.animateMapStatus(update);
+            update = MapStatusUpdateFactory.zoomTo(16f);
+            baiduMap.animateMapStatus(update);
+            isFirstLocate = false;
+        }
+
+        MyLocationData.Builder locationBuilder = new MyLocationData.Builder();
+        locationBuilder.latitude(location.getLatitude());
+        locationBuilder.longitude(location.getLongitude());
+        MyLocationData locationData = locationBuilder.build();
+        baiduMap.setMyLocationData(locationData);
+    }
+
     private class MyLocationListener implements BDLocationListener {
 
         @Override
         public void onReceiveLocation(final BDLocation bdLocation) {
-            runOnUiThread(new Runnable() {
+            /*runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     StringBuilder currentPosition = new StringBuilder();
@@ -148,7 +199,13 @@ public class MainActivity extends AppCompatActivity {
 
                     positionText.setText(currentPosition);
                 }
-            });
+            }); */
+
+            if( bdLocation.getLocType() == BDLocation.TypeGpsLocation
+                    || bdLocation.getLocType() == BDLocation.TypeNetWorkLocation)
+            {
+                navigateTo(bdLocation);
+            }
         }
     }
 }
