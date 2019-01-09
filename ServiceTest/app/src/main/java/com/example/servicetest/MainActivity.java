@@ -12,17 +12,17 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener{
 
-    private MyService.DownloadBinder downloadBinder;
-    private ServiceConnection connection = new ServiceConnection() {
+    private MyService.DownloadBinder downloadBinder; //通过DownloadBinder可以在活动中指挥服务，让服务干什么服务就干什么
+    private ServiceConnection connection = new ServiceConnection() {//ServiceConnection 该接口用于监控与服务的链接
         @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
+        public void onServiceConnected(ComponentName name, IBinder service) {//该函数在活动与服务成功绑定时调用
             downloadBinder = (MyService.DownloadBinder)service;
             downloadBinder.startDownload();
             downloadBinder.getProgress();
         }
 
         @Override
-        public void onServiceDisconnected(ComponentName name) {
+        public void onServiceDisconnected(ComponentName name) { //该函数在活动与服务解绑定时调用
 
         }
     };
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener{
 
             case R.id.bind_service:
                 Intent bindIntent = new Intent(this, MyService.class);
-                bindService(bindIntent, connection, BIND_AUTO_CREATE);
+                bindService(bindIntent, connection, BIND_AUTO_CREATE);//BIND_AUTO_CREATE参数表示在活动和服务进行绑定后自动创建服务，这会使得MyService中的onCreate()方法得到执行
                 break;
 
             case R.id.unbind_service:
