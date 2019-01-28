@@ -13,14 +13,17 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.e("====", "onCreate()");
         Button button = (Button)findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveTaskToBack(true);
-                Log.d("===", "called moveTaskToBack() method");
+
+                Log.e("===", "called moveTaskToBack() method");
             }
         });
+
+        moveTaskToBack(true);
     }
 
     @Override
@@ -60,5 +63,11 @@ public class MainActivity extends Activity {
     protected void onResume() {
         Log.e("====", "onResume()");
         super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.e("====", "onBackPressed()");
+        super.onBackPressed();
     }
 }
