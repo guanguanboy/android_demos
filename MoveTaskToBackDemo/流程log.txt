@@ -1,0 +1,42 @@
+1，第一次点击demo图标：
+01-18 10:30:40.523  9659  9659 E ====    : onCreate()
+01-18 10:30:40.532  9659  9659 E ====    : onStart()
+01-18 10:30:40.534  9659  9659 E ====    : onResume()
+01-18 10:30:40.540  9659  9659 I HwPointEventFilter: do not support AFT because of no config
+01-18 10:30:40.550  9659  9659 E ====    : onPause()
+01-18 10:30:40.554  1321 16228 E Process : isHighLoadProcess: get cpu failed
+01-18 10:30:40.557  1321 16228 E Process : isHighLoadProcess: get cpu failed
+01-18 10:30:40.559 20070 20070 I PhoneStatusBarPolicy: updateBluetooth:::setBluetoothBatteryEnable false.
+01-18 10:30:40.559 20070 20070 I PhoneStatusBarPolicy: updateBluetooth::bluetoothEnabled:false, bluetoothConnected=false, bluetoothTransfering=false
+01-18 10:30:40.563  1931  2240 I PGServer: report state:10000 event type:2 pid:0 uid:0 pkg:com.example.movetasktobackdemo to pid: 1931
+01-18 10:30:40.563  1931  2240 I SceneReceiver: state type: 10000 eventType:2 pid:0 uid:0 pkg:com.example.movetasktobackdemo
+01-18 10:30:40.563  1931  2240 I PGServer: report state:10010 event type:1 pid:0 uid:0 pkg:com.huawei.android.launcher to pid: 1931
+01-18 10:30:40.563  1931  2240 I SceneReceiver: state type: 10010 eventType:1 pid:0 uid:0 pkg:com.huawei.android.launcher
+01-18 10:30:40.564  1931  2550 I LowBatteryManager: Only handle msg event!
+01-18 10:30:40.597 20070 20070 I PhoneStatusBarPolicy: updateBluetooth:::setBluetoothBatteryEnable false.
+01-18 10:30:40.597 20070 20070 I PhoneStatusBarPolicy: updateBluetooth::bluetoothEnabled:false, bluetoothConnected=false, bluetoothTransfering=false
+01-18 10:30:40.707  1321  2072 E HsmCoreServiceImpl: onTransact in code is: 103
+01-18 10:30:40.707  1321  2072 I MediaProcessHandler: playingUids: 
+01-18 10:30:40.722  1321  1335 E Process : isHighLoadProcess: get cpu failed
+01-18 10:30:40.722  9659  9659 E ====    : onStop()
+
+效果为闪一下之后看不到界面。
+
+
+2，第二次点击demo图标：
+01-18 10:31:10.967  9659  9659 E ====    : onRestart()
+01-18 10:31:10.971  9659  9659 E ====    : onStart()
+01-18 10:31:10.972  9659  9659 E ====    : onResume()
+	
+效果为界面显示了出来。
+
+
+3，关闭app时：
+01-18 10:38:48.795  9659  9659 E ====    : onPause()
+01-18 10:38:48.832  9659  9659 E ====    : onStop()
+01-18 10:38:53.027  9659  9659 E ====    : onDestroy()
+
+
+
+
+
