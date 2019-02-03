@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                     try{
 
                         //将拍摄的照片显示出来
-                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri)); //将照片解析成Bitmap
                         pictureDisplay.setImageBitmap(bitmap);
                     }catch (FileNotFoundException e)
                     {
