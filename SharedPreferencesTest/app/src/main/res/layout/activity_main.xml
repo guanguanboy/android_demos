@@ -9,4 +9,10 @@
         android:layout_height="wrap_content"
         android:text="Save data"
         />
+
+    <Button
+        android:id="@+id/restore_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Restore data"/>
 </LinearLayout>
