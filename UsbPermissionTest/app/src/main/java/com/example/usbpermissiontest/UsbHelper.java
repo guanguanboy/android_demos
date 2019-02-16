@@ -23,7 +23,7 @@ public class UsbHelper
     private static final String TAG = "UsbHelper";
 
     private Context mAndroidContext;
-    private String mActionUsbPermission;
+    private String mActionUsbPermissionAction;
     private DevicePermissionListener mDevicePermissionListener;
 
 
@@ -31,9 +31,9 @@ public class UsbHelper
     {
         mAndroidContext = context;
 
-        mActionUsbPermission = (context.getPackageName() + ".USB_PERMISSION");
+        mActionUsbPermissionAction = (context.getPackageName() + ".USB_PERMISSION");
         Log.v(TAG, "context.getPackageName() = " + context.getPackageName());
-        IntentFilter filter = new IntentFilter(mActionUsbPermission);
+        IntentFilter filter = new IntentFilter(mActionUsbPermissionAction); //这个IntentFilter规定了下面的广播接收器只接受action 为mActionUsbPermission的广播
         mAndroidContext.registerReceiver(mUsbReceiver, filter);  //向Android系统申请USB权限时，需要注册一个广播接受器来获取系统的授权结果，系统的授权结果会以广播的形式发出去
     }
 
@@ -47,7 +47,7 @@ public class UsbHelper
         public void onReceive(Context context, Intent intent)
         {
             String action = intent.getAction();
-            if (UsbHelper.this.mActionUsbPermission.equals(action)) {
+            if (UsbHelper.this.mActionUsbPermissionAction.equals(action)) {
                 synchronized (this)
                 {
                     if (UsbHelper.this.mDevicePermissionListener == null) {
@@ -75,7 +75,7 @@ public class UsbHelper
     public void requestDevicePermission(UsbDevice device, DevicePermissionListener listener)
     {
         PendingIntent permissionIntent = PendingIntent.getBroadcast(mAndroidContext, 0, new Intent(
-                mActionUsbPermission), 0);
+                mActionUsbPermissionAction), 0);
 
         mDevicePermissionListener = listener;
 
